@@ -56,17 +56,12 @@ module "eks" {
       instance_types = var.eks_mng_instance_types
       capacity_type  = "${var.eks_mng_capacity_type}"
       iam_role_additional_policies = {
-        AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy",
-
+        AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
       }
     }
   }
 
   tags = var.eks_mng_tags
-
-  depends_on = [
-    module.vpc
-  ]
 }
 
 # Setup EBS Access
@@ -224,6 +219,7 @@ resource "helm_release" "gitops-runtime" {
   }
 
   depends_on = [
+    module.vpc,
     module.eks
   ]
 }
@@ -346,6 +342,7 @@ resource "helm_release" "cf-runtime" {
   }
 
   depends_on = [
+    module.vpc,
     module.eks
   ]
 }
@@ -459,6 +456,12 @@ resource "docker_container" "cf_create_git_source" {
     github_repository.codefresh-demo-app
   ]
 }
+
+# TODO: Create Load Balancer
+
+# TODO: Install NGINX via Helm and associate to Load Balancer
+
+# TODO: Update example-voting-app to nginx ingress
 
 # TODO: Codefresh Terraform Provider Work
 
