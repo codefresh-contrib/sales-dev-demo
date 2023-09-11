@@ -63,6 +63,10 @@ module "eks" {
   }
 
   tags = var.eks_mng_tags
+
+  depends_on = [
+    module.vpc
+  ]
 }
 
 # Setup EBS Access

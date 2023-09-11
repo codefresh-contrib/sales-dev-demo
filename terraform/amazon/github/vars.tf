@@ -50,7 +50,7 @@ variable "eks_mng_max_size" {
 
 variable "eks_mng_desired_size" {
   type = number
-  default = 5
+  default = 3
   description = "Desired EKS Managed Node Group size"
 }
 
