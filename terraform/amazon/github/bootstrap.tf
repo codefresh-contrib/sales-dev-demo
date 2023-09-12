@@ -184,6 +184,27 @@ resource "aws_iam_role_policy_attachment" "ecr_poweruser" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
 }
 
+# Create NGINX Controller
+
+module "nginx-controller" {
+  source  = "terraform-iaac/nginx-controller/helm"
+
+  create_namespace = true
+
+  additional_set = [
+    {
+      name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
+      value = "nlb"
+      type  = "string"
+    },
+    {
+      name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled"
+      value = "true"
+      type  = "string"
+    }
+  ]
+}
+
 # Create GitOps Runtime
 
 resource "helm_release" "gitops-runtime" {
