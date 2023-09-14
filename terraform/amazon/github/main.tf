@@ -1,6 +1,5 @@
 terraform {
   required_providers {
-    # TODO: Add Codefresh
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.15.0"
@@ -21,6 +20,9 @@ terraform {
       source = "hashicorp/helm"
       version = "2.11.0"
     }
+    dataprocessor = {
+      source = "slok/dataprocessor"
+    }
   }
 }
 
@@ -29,7 +31,7 @@ provider "aws" {
 }
 
 provider "codefresh" {
-  api_key = var.cf_api_token
+  token = var.cf_api_token
 }
 
 provider "docker" {

@@ -184,6 +184,33 @@ resource "aws_iam_role_policy_attachment" "ecr_poweruser" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
 }
 
+# Create ECR Docker Registry Integration
+## TODO: Submit Request to support in Codefresh Provider
+
+resource "terraform_data" "docker_registry" {
+  provisioner "local-exec" {
+    on_failure = continue
+    command = <<EOT
+      curl --location 'https://g.codefresh.io/api/registries' \
+      --header 'Content-Type: application/json' \
+      --header 'Accept: application/json' \
+      --header 'Authorization: Bearer ${var.cf_api_token}' \
+      --data '{
+        "name": "${var.eks_cluster_name}",
+        "provider": "ecr",
+        "region": "us-east-1",
+        "behindFirewall": true,
+        "primary": true,
+        "default": true,
+        "internal": true,
+        "denyCompositeDomain": true,
+        "domain": "from.service-account",
+        "getCredsFromServiceAccount": true
+      }'
+    EOT
+  }
+}
+
 # Create NGINX Controller
 
 module "nginx-controller" {
@@ -204,6 +231,12 @@ module "nginx-controller" {
     }
   ]
 }
+
+# Automated DNS Creation
+# module "eks-external-dns_example_basic" {
+#   source  = "lablabs/eks-external-dns/aws//examples/basic"
+#   version = "1.2.0"
+# }
 
 # Create GitOps Runtime
 
@@ -447,6 +480,73 @@ resource "github_repository" "codefresh-demo-app" {
   ]
 }
 
+# Update Application Manifests
+
+data "github_repository_file" "eva_development_app_manifest_temp" {
+  repository          = github_repository.codefresh-demo-app.name
+  branch              = "main"
+  file                = "argocd/applications/helm-eva-development.yaml"
+}
+
+data "github_repository_file" "eva_staging_app_manifest_temp" {
+  repository          = github_repository.codefresh-demo-app.name
+  branch              = "main"
+  file                = "argocd/applications/helm-eva-staging.yaml"
+}
+
+data "github_repository_file" "eva_production_app_manifest" {
+  repository          = github_repository.codefresh-demo-app.name
+  branch              = "main"
+  file                = "argocd/applications/helm-eva-production.yaml"
+}
+
+data "dataprocessor_yq" "development" {
+  input_data = data.github_repository_file.eva_development_app_manifest_temp.content
+  expression = ".spec.source.repoURL = \"${github_repository.codefresh-demo-app.http_clone_url}\""
+}
+
+data "dataprocessor_yq" "staging" {
+  input_data = data.github_repository_file.eva_staging_app_manifest_temp.content
+  expression = ".spec.source.repoURL = \"${github_repository.codefresh-demo-app.http_clone_url}\""
+}
+
+data "dataprocessor_yq" "production" {
+  input_data = data.github_repository_file.eva_production_app_manifest.content
+  expression = ".spec.source.repoURL = \"${github_repository.codefresh-demo-app.http_clone_url}\""
+}
+
+resource "github_repository_file" "eva_development_app_manifest" {
+  repository          = github_repository.codefresh-demo-app.name
+  branch              = "main"
+  file                = "argocd/applications/helm-eva-development.yaml"
+  content             = data.dataprocessor_yq.development.result
+  commit_message      = "Managed by Terraform"
+  commit_author       = "Terraform User"
+  commit_email        = "terraform@example.com"
+  overwrite_on_create = true
+}
+
+resource "github_repository_file" "eva_staging_app_manifest" {
+  repository          = github_repository.codefresh-demo-app.name
+  branch              = "main"
+  file                = "argocd/applications/helm-eva-staging.yaml"
+  content             = data.dataprocessor_yq.staging.result
+  commit_message      = "Managed by Terraform"
+  commit_author       = "Terraform User"
+  commit_email        = "terraform@example.com"
+  overwrite_on_create = true
+}
+resource "github_repository_file" "eva_production_app_manifest" {
+  repository          = github_repository.codefresh-demo-app.name
+  branch              = "main"
+  file                = "argocd/applications/helm-eva-production.yaml"
+  content             = data.dataprocessor_yq.production.result
+  commit_message      = "Managed by Terraform"
+  commit_author       = "Terraform User"
+  commit_email        = "terraform@example.com"
+  overwrite_on_create = true
+}
+
 # Add Demo App Repository as GitOps Git-Source
 
 resource "docker_container" "cf_create_git_source" {
@@ -480,19 +580,16 @@ resource "docker_container" "cf_create_git_source" {
 
 # TODO: Future Codefresh Terraform Provider Work
 
-# TODO: Create Development, Staging, Production Apps
-  # TODO: Add Route53 Automation for DNS Records
-  # TODO: Update Helm Chart to NGINX Ingress
-
-# TODO: Create Docker Registry Integration (No Terraform)
+# TODO: Create Docker Registry Integration (No Terraform) < --- done
   # TODO: Add Project Creation
-  # TODO: Update codefresh-demo-app/argocd/applications/helm-eva-example.yaml with pointer to codefresh-demo-app repository
   # TODO: Create Codefresh Pipeline in Terraform for GitOps CD Initialization
-  # TODO: Codefresh run initialization pipeline to build all stable images to begin their life cycle 
+  # TODO: Codefresh run initialization pipeline to build all stable images to begin their life cycle
 
 # TODO: Create Storage Integration
+  # TODO: Convert GitOps Promotion Pipeline into Terraform Code
   # TODO: Convert Codefresh EVA Pipelines into Terraform Code
 
 # TODO: Update example-voting-app to nginx ingress (will take a rewrite of application code to support without subdomain configuration)
+  # TODO: Add Route53 Automation for DNS Records
   # TODO: Automate DNS configuration
-  # TODO: Add ingress to Helm Chart
+  # TODO: Move to demo app to Argo Rollouts
