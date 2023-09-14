@@ -478,30 +478,21 @@ resource "docker_container" "cf_create_git_source" {
   ]
 }
 
-# TODO: Create Load Balancer
+# TODO: Future Codefresh Terraform Provider Work
 
-# TODO: Install NGINX via Helm and associate to Load Balancer
+# TODO: Create Development, Staging, Production Apps
+  # TODO: Add Route53 Automation for DNS Records
+  # TODO: Update Helm Chart to NGINX Ingress
 
-# TODO: Update example-voting-app to nginx ingress
-
-# TODO: Codefresh Terraform Provider Work
-
-# TODO: Add Project Creation
-
-# TODO: Convert Codefresh Pipelines into Terraform Code
-
-# TODO: Create Docker Registry Integration
+# TODO: Create Docker Registry Integration (No Terraform)
+  # TODO: Add Project Creation
+  # TODO: Update codefresh-demo-app/argocd/applications/helm-eva-example.yaml with pointer to codefresh-demo-app repository
+  # TODO: Create Codefresh Pipeline in Terraform for GitOps CD Initialization
+  # TODO: Codefresh run initialization pipeline to build all stable images to begin their life cycle 
 
 # TODO: Create Storage Integration
+  # TODO: Convert Codefresh EVA Pipelines into Terraform Code
 
-# TODO: Codefresh run initialization pipeline to build all stable images to begin their life cycle
-
-# TODO: Add NGINX deployment
-
-# TODO: Add ingress to Helm Chart
-
-# TODO: GitOps Works
-
-# TODO: Create Codefresh Pipeline in Terraform for GitOps Promotion
-
-# TODO: Create S
+# TODO: Update example-voting-app to nginx ingress (will take a rewrite of application code to support without subdomain configuration)
+  # TODO: Automate DNS configuration
+  # TODO: Add ingress to Helm Chart
