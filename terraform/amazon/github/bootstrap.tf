@@ -250,15 +250,11 @@ resource "helm_release" "gitops-runtime" {
 resource "docker_container" "cf_create_context" {
   name  = "cf_create_context"
   image = "quay.io/codefresh/cli-v2:latest"
-  entrypoint = [""]
-  env = ["HOME=/tmp"]
-  working_dir = "/usr/local/bin"
   volumes {
     host_path = path.cwd
     container_path = "/tmp"
   }
   command = [
-              "cf",
               "config",
               "create-context",
               "temp",
@@ -286,15 +282,11 @@ resource "github_repository" "codefresh-demo-isc" {
 resource "docker_container" "cf_configure_isc" {
   name  = "cf_configure_isc"
   image = "quay.io/codefresh/cli-v2:latest"
-  entrypoint = [""]
-  env = ["HOME=/tmp"]
-  working_dir = "/usr/local/bin"
   volumes {
     host_path = path.cwd
     container_path = "/tmp"
   }
   command = [
-              "cf",
               "config",
               "update-gitops-settings",
               "--shared-config-repo",
@@ -373,15 +365,11 @@ resource "helm_release" "cf-runtime" {
 resource "docker_container" "cf_add_git_integration" {
   name  = "cf_add_git_integration"
   image = "quay.io/codefresh/cli-v2:latest"
-  entrypoint = [""]
-  env = ["HOME=/tmp"]
-  working_dir = "/usr/local/bin"
   volumes {
     host_path = path.cwd
     container_path = "/tmp"
   }
   command = [
-              "cf",
               "integration",
               "git",
               "add",
@@ -404,15 +392,11 @@ resource "docker_container" "cf_add_git_integration" {
 resource "docker_container" "cf_register_git_integration" {
   name  = "cf_register_git_integration"
   image = "quay.io/codefresh/cli-v2:latest"
-  entrypoint = [""]
-  env = ["HOME=/tmp"]
-  working_dir = "/usr/local/bin"
   volumes {
     host_path = path.cwd
     container_path = "/tmp"
   }
   command = [
-              "cf",
               "integration",
               "git",
               "register",
@@ -452,15 +436,11 @@ resource "github_repository" "codefresh-demo-app" {
 resource "docker_container" "cf_create_git_source" {
   name  = "cf_create_git_source"
   image = "quay.io/codefresh/cli-v2:latest"
-  entrypoint = [""]
-  env = ["HOME=/tmp"]
-  working_dir = "/usr/local/bin"
   volumes {
     host_path = path.cwd
     container_path = "/tmp"
   }
   command = [
-              "cf",
               "git-source",
               "create",
               module.eks.cluster_name,
@@ -478,30 +458,21 @@ resource "docker_container" "cf_create_git_source" {
   ]
 }
 
-# TODO: Create Load Balancer
+# TODO: Future Codefresh Terraform Provider Work
 
-# TODO: Install NGINX via Helm and associate to Load Balancer
+# TODO: Create Development, Staging, Production Apps
+  # TODO: Add Route53 Automation for DNS Records
+  # TODO: Update Helm Chart to NGINX Ingress
 
-# TODO: Update example-voting-app to nginx ingress
-
-# TODO: Codefresh Terraform Provider Work
-
-# TODO: Add Project Creation
-
-# TODO: Convert Codefresh Pipelines into Terraform Code
-
-# TODO: Create Docker Registry Integration
+# TODO: Create Docker Registry Integration (No Terraform)
+  # TODO: Add Project Creation
+  # TODO: Update codefresh-demo-app/argocd/applications/helm-eva-example.yaml with pointer to codefresh-demo-app repository
+  # TODO: Create Codefresh Pipeline in Terraform for GitOps CD Initialization
+  # TODO: Codefresh run initialization pipeline to build all stable images to begin their life cycle 
 
 # TODO: Create Storage Integration
+  # TODO: Convert Codefresh EVA Pipelines into Terraform Code
 
-# TODO: Codefresh run initialization pipeline to build all stable images to begin their life cycle
-
-# TODO: Add NGINX deployment
-
-# TODO: Add ingress to Helm Chart
-
-# TODO: GitOps Works
-
-# TODO: Create Codefresh Pipeline in Terraform for GitOps Promotion
-
-# TODO: Create S
+# TODO: Update example-voting-app to nginx ingress (will take a rewrite of application code to support without subdomain configuration)
+  # TODO: Automate DNS configuration
+  # TODO: Add ingress to Helm Chart
