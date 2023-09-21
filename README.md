@@ -30,7 +30,7 @@ Example Variable Files
 
 ``` terraform.tfvars.json
 {
-  "eks_cluster_name": ",
+  "eks_cluster_name": "",
   "cf_account_id": "",
   "cf_api_token": "",
   "github_api_token": "",
