@@ -401,7 +401,7 @@ resource "docker_container" "cf_create_context" {
               "cf",
               "config",
               "create-context",
-              "temp",
+              var.eks_cluster_name,
               "--api-key",
               var.cf_api_token
             ]
