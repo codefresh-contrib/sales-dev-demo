@@ -38,7 +38,7 @@ variable "eks_mng_instance_types" {
 
 variable "eks_mng_min_size" {
   type = number
-  default = 3
+  default = 5
   description = "Minimum EKS Managed Node Group size"
 }
 
@@ -50,7 +50,7 @@ variable "eks_mng_max_size" {
 
 variable "eks_mng_desired_size" {
   type = number
-  default = 3
+  default = 5
   description = "Desired EKS Managed Node Group size"
 }
 
@@ -79,7 +79,7 @@ variable "eks_mng_tags" {
 variable "cf_account_id" {
   type    = string
   default = ""
-  sensitive = true
+  #sensitive = true
   description = "Codefresh Account ID"
 }
 # Available at: https://g.codefresh.io/2.0/account-settings/account-information
@@ -94,7 +94,7 @@ variable "cf_api_host" {
 variable "cf_api_token" {
   type    = string
   default = ""
-  sensitive = true
+  #sensitive = true
   description = "Codefresh access token. Create it from the Codefresh UI"
 }
 # Documentation: https://codefresh.io/docs/docs/integrations/codefresh-api/#authentication-instructions
@@ -132,7 +132,7 @@ variable "gitops_runtime_namespace" {
 variable "github_api_token" {
   type    = string
   default = ""
-  sensitive = true
+  #sensitive = true
   description = "GitHub API Token"
 }
 
@@ -140,4 +140,11 @@ variable "github_owner" {
   type    = string
   default = ""
   description = "GitHub Owner (Personal Account or Organization)"
+}
+
+variable "jira_api_token" {
+  type    = string
+  default = ""
+  #sensitive = true
+  description = "JIRA API Token"
 }
