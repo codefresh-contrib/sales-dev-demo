@@ -412,7 +412,7 @@ resource "docker_container" "cf_create_context" {
 # Create Codefresh ISC Repository
 
 resource "github_repository" "codefresh-demo-isc" {
-  name        = "codefresh-demo-isc"
+  name        = "${var.eks_cluster_name}-demo-isc"
   description = "Codefresh Shared Configuration Repository"
 
   visibility = "private"
@@ -621,7 +621,7 @@ resource "null_resource" "create_gitops_docker_registry_integration" {
 # Copy Demo App Repository to GitHub
 
 resource "github_repository" "codefresh-demo-app" {
-  name        = "codefresh-demo-app"
+  name        = "${var.eks_cluster_name}-demo-app"
   description = "Codefresh Demo App Repository"
 
   visibility = "public"

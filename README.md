@@ -1,11 +1,19 @@
 # This repository is experimental.  Please be careful using this repository at this time.
 
+Currently working to support Amazon cloud and GitHub.
+
+You'll need the following today to spin up a demo environment.
+
+1. [Codefresh Account](https://g.codefresh.io/signup)
+1. [Amazon Account](https://aws.amazon.com/)
+1. [GitHub Account](https://github.com/signup)
+
 ## This project is meant to...
 
-1. Create the necessary infrastructure in Amazon for Codefresh.
-1. Install Codefresh Runtime
-1. Install GitOps Runtime
-1. Install a Demo GitOps Application
+1. Create the necessary Cloud infrastructure for Codefresh.
+1. Install [Codefresh Runtime](https://artifacthub.io/packages/helm/codefresh-runner/cf-runtime)
+1. Install [GitOps Runtime](https://artifacthub.io/packages/helm/codefresh-gitops-runtime/gitops-runtime)
+1. Install a [Demo GitOps Application](https://github.com/codefresh-contrib/example-voting-app)
 
 ### Required Variables
 
@@ -30,3 +38,5 @@ Example Variable Files
   "jira_api_token": ""
 }
 ```
+
+If you need to customize either runtime installation you'll find Helm values files in this repository which will be applied to the installs.
