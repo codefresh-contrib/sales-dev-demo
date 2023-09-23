@@ -174,7 +174,7 @@ data "aws_iam_policy_document" "cf_runtime_ebs_csi" {
 }
 
 resource "aws_iam_policy" "cf_runtime_ebs_csi" {
-  name        = "cf_runtime_ebs_csi"
+  name        = "${var.eks_cluster_name}_ebs_csi"
   description = "Custom EBS Policy for Codefresh"
   policy = data.aws_iam_policy_document.cf_runtime_ebs_csi.json
 }
@@ -186,8 +186,8 @@ resource "aws_iam_role_policy_attachment" "ebs_csi" {
 
 # Setup S3 (Storage Integration)
 
-resource "aws_s3_bucket" "codefresh-demo" {
-  bucket = "codefresh-demo"
+resource "aws_s3_bucket" "codefresh-demo-s3-bucket" {
+  bucket = var.eks_cluster_name
 
   tags = {
     Name        = "Codefresh Demo"
@@ -577,7 +577,8 @@ resource "docker_container" "cf_register_git_integration" {
 #     EOT
 #   }
 #   depends_on = [
-#     helm_release.gitops-runtime
+#     helm_release.gitops-runtime,
+#     docker_container.cf_register_git_integration
 #   ]
 # }
 
