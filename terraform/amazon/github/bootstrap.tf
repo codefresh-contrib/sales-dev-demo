@@ -959,7 +959,8 @@ resource "docker_container" "codefesh_run_demo_app_initializaton_pipeline" {
 
 
 # TODO: Future Codefresh Terraform Provider Work
-# TODO: Add JIRA Integration< --- blocked
+# TODO: Fargate backend for EKS
+# TODO: Add JIRA Integration < --- blocked
 # TODO: Add Pipeline success check
 
 # TODO: Create Storage Integration (Role not supported)
@@ -967,7 +968,7 @@ resource "docker_container" "codefesh_run_demo_app_initializaton_pipeline" {
 # TODO: Convert GitOps Promotion Pipeline into Terraform Code
 # TODO: Convert Codefresh EVA Pipelines into Terraform Code
 
-# TODO: Update example-voting-app to nginx ingress (will take a rewrite of application code to support without subdomain configuration)
 # TODO: Add Route53 Automation for DNS Records
 # TODO: Automate DNS configuration
+# TODO: Update example-voting-app to nginx ingress
 # TODO: Move to demo app to Argo Rollouts
