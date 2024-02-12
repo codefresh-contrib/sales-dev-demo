@@ -18,13 +18,13 @@ variable "azure_prefix" {
 variable "azure_node_count" {
   type        = number
   default     = 1
-  description = "A prefix used for all resources in this example"
+  description = "Number of Azure Kubernetes Worker Nodes"
 }
 
 variable "azure_vm_size" {
   type        = string
   default     = "Standard_DS3_v2"
-  description = "A prefix used for all resources in this example"
+  description = "VM Size of Azure Kubernetes Worker Nodes"
 }
 
 # Documentation: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
