@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "demo" {
 }
 
 resource "azurerm_container_registry" "demo" {
-  name                = "cfdemoacr"
+  name                = "${replace(var.azure_prefix, "-", "")}"
   resource_group_name = azurerm_resource_group.demo.name
   location            = azurerm_resource_group.demo.location
   sku                 = "Premium"
@@ -18,8 +18,8 @@ resource "azurerm_kubernetes_cluster" "demo" {
 
   default_node_pool {
     name       = "default"
-    node_count = 1
-    vm_size    = "Standard_DS3_v2"
+    node_count = var.azure_node_count
+    vm_size    = "${var.azure_vm_size}"
   }
 
   identity {
