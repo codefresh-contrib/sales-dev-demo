@@ -62,7 +62,7 @@ resource "helm_release" "gitops-runtime" {
     value = var.cf_account_id
   }
 
-  set {
+  set_sensitive {
     name  = "global.codefresh.userToken.token"
     value = var.cf_api_token
   }
@@ -70,11 +70,6 @@ resource "helm_release" "gitops-runtime" {
   set {
     name  = "global.runtime.name"
     value = azurerm_kubernetes_cluster.demo.name
-  }
-
-  set {
-    name = "global.runtime.gitCredentials.password.value"
-    value = var.github_api_token
   }
 
   depends_on = [
@@ -95,7 +90,7 @@ resource "helm_release" "cf-runtime" {
     file("${path.module}/cf-runtime-values.yaml")
   ]
 
-  set {
+  set_sensitive {
     name  = "global.codefreshToken"
     value = var.cf_api_token
   }
@@ -121,15 +116,6 @@ resource "helm_release" "cf-runtime" {
   }
 
   depends_on = [
-    azurerm_kubernetes_cluster.demo
-  ]
-}
-
-resource "local_file" "kubeconfig" {
-  filename     = "./kubeconfig"
-  content      = azurerm_kubernetes_cluster.demo.kube_config_raw
-
-  depends_on   = [
     azurerm_kubernetes_cluster.demo
   ]
 }
