@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.90.0"
     }
-    codefresh = {
-      source = "codefresh-io/codefresh"
-      version = "0.6.0-beta-1"
-    }
     helm = {
       source = "hashicorp/helm"
       version = "2.11.0"
@@ -26,11 +22,6 @@ provider "azurerm" {
   # information can be found here:
   # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/features-block
   features {}
-}
-
-provider "codefresh" {
-  # https://registry.terraform.io/providers/codefresh-io/codefresh/latest/docs
-  token = var.cf_api_token
 }
 
 provider "helm" {

@@ -1,30 +1,30 @@
-#### Azure Configuration
+#### Google Configuration
 
-variable "azure_location" {
+variable "google_location" {
   type        = string
-  description = "The Azure Region in which all resources in this example should be provisioned"
+  description = "The Google Region in which all resources in this example should be provisioned"
 }
 
-variable "azure_subscription" {
+variable "google_project_id" {
   type        = string
-  description = "The Azure Subscription ID to deploy to"
+  description = "Google Project ID"
 }
 
-variable "azure_prefix" {
+variable "gke_cluster_name" {
   type        = string
-  description = "A prefix used for all resources in this example"
+  description = "Google Kubernetes Cluster Name"
 }
 
-variable "azure_node_count" {
+variable "gke_worker_node_count" {
   type        = number
   default     = 1
-  description = "Number of Azure Kubernetes Worker Nodes"
+  description = "Number of Google Kubernetes Worker Nodes"
 }
 
-variable "azure_vm_size" {
+variable "gke_worker_machine_type" {
   type        = string
-  default     = "Standard_DS3_v2"
-  description = "VM Size of Azure Kubernetes Worker Nodes"
+  default     = "n1-standard-4"
+  description = "VM Size of Google Kubernetes Worker Nodes"
 }
 
 # Documentation: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
@@ -48,8 +48,6 @@ variable "cf_api_host" {
 
 variable "cf_api_token" {
   type    = string
-  default = ""
-  #sensitive = true
   description = "Codefresh access token. Create it from the Codefresh UI"
 }
 # Documentation: https://codefresh.io/docs/docs/integrations/codefresh-api/#authentication-instructions
@@ -63,12 +61,6 @@ variable "cf_runtime_name" {
 variable "cf_runtime_namespace" {
   type = string
   default = "cf-runtime"
-  description = "Codefresh Runtime installation namespace"
-}
-
-variable "cf_runtime_az" {
-  type = string
-  default = "us-east-1f"
   description = "Codefresh Runtime installation namespace"
 }
 
@@ -89,10 +81,4 @@ variable "github_api_token" {
   default = ""
   #sensitive = true
   description = "GitHub API Token"
-}
-
-variable "github_owner" {
-  type    = string
-  default = ""
-  description = "GitHub Owner (Personal Account or Organization)"
 }

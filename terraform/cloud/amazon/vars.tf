@@ -24,7 +24,7 @@ variable "eks_cluster_name" {
 
 variable "eks_cluster_version" {
   type = string
-  default = "1.27"
+  default = "1.29"
   description = "EKS Cluster Version"
 }
 # Documentation: https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html
@@ -108,13 +108,13 @@ variable "cf_runtime_name" {
 variable "cf_runtime_namespace" {
   type = string
   default = "cf-runtime"
-  description = "Codefresh Runtime installation namespace"
+  description = "Codefresh Runtime (Runner) installation namespace"
 }
 
 variable "cf_runtime_az" {
   type = string
   default = "us-east-1f"
-  description = "Codefresh Runtime installation namespace"
+  description = "Codefresh Runtime availability zone"
 }
 
 variable "gitops_runtime_name" {
@@ -127,17 +127,4 @@ variable "gitops_runtime_namespace" {
   type = string
   default = "gitops-runtime"
   description = "GitOps Runtime installation namespace"
-}
-
-variable "github_api_token" {
-  type    = string
-  default = ""
-  sensitive = true
-  description = "GitHub API Token"
-}
-
-variable "github_owner" {
-  type    = string
-  default = ""
-  description = "GitHub Owner (Personal Account or Organization)"
 }
