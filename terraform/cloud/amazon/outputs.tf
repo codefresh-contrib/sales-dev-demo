@@ -23,3 +23,7 @@ output "ecr_registry_vote" {
 output "ecr_registry_worker" {
   value = aws_ecr_repository.worker.name
 }
+
+output "isc_repository" {
+  value = local.repo_clone_url
+}
