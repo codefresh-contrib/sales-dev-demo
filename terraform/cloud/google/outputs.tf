@@ -11,3 +11,7 @@ output "codefresh_runtime" {
 output "google_artifact_registry" {
   value = google_artifact_registry_repository.demo.name
 }
+
+output "isc_repository" {
+  value = local.repo_clone_url
+}
