@@ -4,9 +4,17 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.90.0"
     }
+    docker = {
+      source = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.0"
+    }
     helm = {
       source = "hashicorp/helm"
-      version = "2.11.0"
+      version = "2.12.1"
     }
   }
 }
@@ -22,6 +30,15 @@ provider "azurerm" {
   # information can be found here:
   # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/features-block
   features {}
+}
+
+provider "docker" {
+  host = "unix:///var/run/docker.sock"
+}
+
+provider "github" {
+  token = var.github_api_token
+  owner = var.github_owner
 }
 
 provider "helm" {

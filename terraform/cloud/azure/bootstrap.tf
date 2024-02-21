@@ -31,6 +31,82 @@ resource "azurerm_kubernetes_cluster" "demo" {
   }
 }
 
+# Create Codefresh Config
+
+resource "docker_container" "cf_create_context" {
+  count = var.create_isc ? 1 : 0
+  name  = "cf_create_context"
+  image = "quay.io/codefresh/cli-v2:latest"
+  entrypoint = [""]
+  env = ["HOME=/tmp"]
+  working_dir = "/usr/local/bin"
+  volumes {
+    host_path = path.cwd
+    container_path = "/tmp"
+  }
+  command = [
+              "cf",
+              "config",
+              "create-context",
+              azurerm_kubernetes_cluster.demo.name,
+              "--api-key",
+              var.cf_api_token
+            ]
+  attach = "true"
+  must_run = "false"
+}
+
+# Create Codefresh ISC Repository
+
+resource "github_repository" "codefresh-demo-isc" {
+  count = var.github_isc ? 1 : 0
+  name        = "${azurerm_kubernetes_cluster.demo.name}-isc"
+  description = "Codefresh Shared Configuration Repository"
+
+  visibility = "private"
+  depends_on = [
+    docker_container.cf_create_context
+  ]
+}
+
+# Get Version Control Information
+
+locals {
+  count = var.github_isc ? 1 : 0
+  repo_clone_url = try(github_repository.codefresh-demo-isc[0].http_clone_url, null)
+  vcs_api_token = var.github_api_token
+}
+
+# Add Codefresh ISC Repository
+
+resource "docker_container" "cf_configure_isc" {
+  count = var.create_isc ? 1 : 0
+  name  = "cf_configure_isc"
+  image = "quay.io/codefresh/cli-v2:latest"
+  entrypoint = [""]
+  env = ["HOME=/tmp"]
+  working_dir = "/usr/local/bin"
+  volumes {
+    host_path = path.cwd
+    container_path = "/tmp"
+  }
+  command = [
+              "cf",
+              "config",
+              "update-gitops-settings",
+              "--silent",
+              "--shared-config-repo",
+              "${local.repo_clone_url}"
+            ]
+  attach = "true"
+  must_run = "false"
+
+  depends_on = [
+    github_repository.codefresh-demo-isc
+  ]
+}
+
+
 # Create NGINX Controller
 
 resource "helm_release" "nginx-ingress" {
