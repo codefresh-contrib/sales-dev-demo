@@ -11,3 +11,7 @@ output "codefresh_runtime" {
 output "azure_container_registry" {
   value = azurerm_container_registry.demo.name
 }
+
+output "isc_repository" {
+  value = local.repo_clone_url
+}

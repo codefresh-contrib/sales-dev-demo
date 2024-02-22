@@ -128,3 +128,30 @@ variable "gitops_runtime_namespace" {
   default = "gitops-runtime"
   description = "GitOps Runtime installation namespace"
 }
+
+#### GitHub Configuration
+
+variable "create_isc" {
+  type    = string
+  default = false
+  description = "Creates Codefresh Internal Shared Configuration Repository"
+}
+
+variable "github_isc" {
+  type    = string
+  default = false
+  description = "Selects GitHub for ISC"
+}
+
+variable "github_api_token" {
+  type    = string
+  sensitive = true
+  default = null
+  description = "GitHub API Token, if creating ISC"
+}
+
+variable "github_owner" {
+  type    = string
+  default = null
+  description = "GitHub Owner (Personal Account or Organization), if creating ISC"
+}
