@@ -129,13 +129,16 @@ variable "gitops_runtime_namespace" {
   description = "GitOps Runtime installation namespace"
 }
 
-#### GitHub Configuration
+
+#### ISC Configuration, requires GitHub or Gitlab
 
 variable "create_isc" {
   type    = string
   default = false
   description = "Creates Codefresh Internal Shared Configuration Repository"
 }
+
+#### GitHub Configuration
 
 variable "github_isc" {
   type    = string
@@ -150,8 +153,34 @@ variable "github_api_token" {
   description = "GitHub API Token, if creating ISC"
 }
 
+variable "github_base_url" {
+  type    = string
+  default = "https://api.github.com/"
+  description = "This is the target GitHub base API endpoint, if creating ISC.  Requires a trailing slash."
+}
+
 variable "github_owner" {
   type    = string
   default = null
   description = "GitHub Owner (Personal Account or Organization), if creating ISC"
+}
+#### Gitlab Configuration
+
+variable "gitlab_isc" {
+  type    = string
+  default = false
+  description = "Selects Gitlab for ISC"
+}
+
+variable "gitlab_api_token" {
+  type    = string
+  sensitive = true
+  default = "glpat-"
+  description = "Gitlab API Token, if creating ISC"
+}
+
+variable "gitlab_base_url" {
+  type    = string
+  default = "https://gitlab.com/"
+  description = "This is the target GitLab base API endpoint, if creating ISC.  Requires a trailing slash."
 }
