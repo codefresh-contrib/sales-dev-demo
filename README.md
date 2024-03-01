@@ -66,7 +66,7 @@ To configure Version Control for GitOps Runtime you will need a Personal Access 
 {
   "create_isc": true,
   "gitlab_isc": true,
-  "gitlab_api_token": "ghp-..",
+  "gitlab_api_token": "glpat-..",
 }
 ```
 
