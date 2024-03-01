@@ -1,5 +1,3 @@
-# This repository is experimental.  Please be careful using this repository at this time.
-
 We are focusing on quick starts (sandboxes) to get Codfresh Runtimes installed and a simple GitOps Demo application configured in you Codefresh account.
 
 ## This project is meant to...
@@ -9,6 +7,17 @@ We are focusing on quick starts (sandboxes) to get Codfresh Runtimes installed a
 1. Install Codefresh Runtime
 1. Install GitOps Runtime
 1. Install NGINX
+
+## Testewd Operating Systems
+
+MacOS:
+- M2
+  - Monterey 12.2
+- M3
+  - Sonoma 14.3
+
+Windows OS:
+- 
 
 ## Codefresh Configuration
 
@@ -33,7 +42,7 @@ Required Amazon Configuration `tfvars.json`
 
 ```json
 {
-  "eks_cluster_name": "poc-demo-eks-1",
+  "eks_cluster_name": "poc-demo-eks-1"
 }
 ```
 
@@ -49,7 +58,6 @@ Required Azure Configuration for `tfvars.json`
     "azure_prefix": "",
     "azure_subscription": ""
 }
-
 ```
 
 If you have any issue with registering providers in Azure please try exporting the VAR below to your terminal
@@ -72,6 +80,16 @@ Required Google Configuration `tfvars.json`
 
 ## Version Control
 
+This requires Docker on your machine.
+
+If you're using Windows OS please add the following to your `tfvars.json`
+
+```json
+{
+  "docker_host": "npipe:////.//pipe//docker_engine"
+}
+```
+
 #### GitHub
 
 
@@ -87,8 +105,6 @@ To configure Version Control for GitOps Runtime you will need a Personal Access 
   "github_owner": ""
 }
 ```
-
-
 
 - In gitops-runtime-values.yaml
 
@@ -112,11 +128,9 @@ To configure Version Control for GitOps Runtime you will need a Personal Access 
 {
   "create_isc": true,
   "gitlab_isc": true,
-  "gitlab_api_token": "glpat-..",
+  "gitlab_api_token": "glpat-.."
 }
 ```
-
-
 
 - In gitops-runtime-values.yaml
 

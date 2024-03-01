@@ -96,6 +96,12 @@ variable "create_isc" {
   description = "Creates Codefresh Internal Shared Configuration Repository"
 }
 
+variable "docker_host" {
+  type    = string
+  default = "unix:///var/run/docker.sock"
+  description = "Docker deamon host.  Default is for MacOS, for Windows use npipe:////.//pipe//docker_engine"
+}
+
 #### GitHub Configuration
 
 variable "github_isc" {

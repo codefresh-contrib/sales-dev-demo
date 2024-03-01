@@ -97,12 +97,18 @@ variable "gitops_runtime_version" {
   description = "GitOps Runtime version"
 }
 
-#### GitHub Configuration
+#### ISC Configuration, requires GitHub or Gitlab
 
 variable "create_isc" {
   type    = string
   default = false
   description = "Creates Codefresh Internal Shared Configuration Repository"
+}
+
+variable "docker_host" {
+  type    = string
+  default = "unix:///var/run/docker.sock"
+  description = "Docker deamon host.  Default is for MacOS, for Windows use npipe:////.//pipe//docker_engine"
 }
 
 #### GitHub Configuration
