@@ -32,8 +32,6 @@ Codefresh Runner (CI) has no caching (Coming soon)
 #### GitHub
 To configure Version Control for GitOps Runtime you will need a Personal Access Token and define the following:
 
-(GitHub is only supported VCS right now.)
-
 - In your tfvars.json
 
 ```json
@@ -59,6 +57,30 @@ global:
 ```
 
 ### Gitlab
-(Coming soon)
+
+To configure Version Control for GitOps Runtime you will need a Personal Access Token and define the following:
+
+- In your tfvars.json
+
+```json
+{
+  "create_isc": true,
+  "gitlab_isc": true,
+  "gitlab_api_token": "ghp-..",
+}
+```
+
+
+
+- In gitops-runtime-values.yaml
+
+```yaml
+global:
+  runtime:
+    gitCredentials:
+      password: 
+        value: glpat-...
+
+```
 
 If you'd like to see you cloud/version control supported please create and issue in this repository.
