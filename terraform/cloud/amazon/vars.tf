@@ -117,6 +117,12 @@ variable "cf_runtime_az" {
   description = "Codefresh Runtime availability zone"
 }
 
+variable "cf_runtime_version" {
+  type = string
+  default = "6.3.14"
+  description = "Codefresh Runtime version"
+}
+
 variable "gitops_runtime_name" {
   type = string
   default = "gitops-runtime"
@@ -129,6 +135,11 @@ variable "gitops_runtime_namespace" {
   description = "GitOps Runtime installation namespace"
 }
 
+variable "gitops_runtime_version" {
+  type = string
+  default = "0.4.6"
+  description = "GitOps Runtime version"
+}
 
 #### ISC Configuration, requires GitHub or Gitlab
 

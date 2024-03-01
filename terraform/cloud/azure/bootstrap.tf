@@ -140,8 +140,9 @@ resource "helm_release" "nginx-ingress" {
 
 resource "helm_release" "gitops-runtime" {
   name       = "${var.gitops_runtime_name}"
-  repository = "https://chartmuseum.codefresh.io/gitops-runtime"
+  repository = "oci://quay.io/codefresh"
   chart      = "gitops-runtime"
+  version    = "${var.gitops_runtime_version}"
   namespace  = "${var.gitops_runtime_namespace}"
   create_namespace = "true"
 
@@ -173,8 +174,9 @@ resource "helm_release" "gitops-runtime" {
 
 resource "helm_release" "cf-runtime" {
   name       = "${var.cf_runtime_name}"
-  repository = "https://chartmuseum.codefresh.io/cf-runtime"
+  repository = "oci://quay.io/codefresh"
   chart      = "cf-runtime"
+  version    = "${var.cf_runtime_version}"
   namespace  = "${var.cf_runtime_namespace}"
   create_namespace = "true"
 
