@@ -31,3 +31,11 @@ output "isc_repository" {
     docker_container.cf_configure_isc
   ]
 }
+
+output "demo_app_repository" {
+  value = module.create_demo_app[0].demo_app_repository
+
+  depends_on = [
+    module.create_demo_app
+  ]
+}

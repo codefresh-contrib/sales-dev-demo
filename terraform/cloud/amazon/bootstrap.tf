@@ -372,7 +372,8 @@ resource "helm_release" "gitops-runtime" {
 
   depends_on = [
     module.vpc,
-    module.eks
+    module.eks,
+    docker_container.cf_configure_isc
   ]
 }
 
@@ -433,5 +434,28 @@ resource "helm_release" "cf-runtime" {
   depends_on = [
     module.vpc,
     module.eks
+  ]
+}
+
+# Create Demo App
+
+module "create_demo_app" {
+  count = var.create_github_demo_app ? 1 : 0
+
+  source = "../../helm/eva-demo-app/github"
+
+  providers = {
+    github = github
+    dataprocessor = dataprocessor
+  }
+
+  runtime_name = var.eks_cluster_name
+  docker_host = var.docker_host
+  github_api_token = var.github_api_token 
+  github_base_url = var.github_base_url
+  github_owner = var.github_owner
+
+  depends_on = [
+    helm_release.gitops-runtime
   ]
 }

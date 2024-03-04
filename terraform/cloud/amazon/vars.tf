@@ -181,6 +181,13 @@ variable "github_owner" {
   default = null
   description = "GitHub Owner (Personal Account or Organization), if creating ISC"
 }
+
+variable "create_github_demo_app" {
+  type    = string
+  default = false
+  description = "Creates demo app in GitHub"
+}
+
 #### Gitlab Configuration
 
 variable "gitlab_isc" {

@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    dataprocessor = {
+      source = "slok/dataprocessor"
+      version = "0.4.0"
+    }
     docker = {
       source = "kreuzwerker/docker"
       version = "3.0.2"
