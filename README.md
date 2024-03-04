@@ -119,6 +119,18 @@ global:
 
 ```
 
+#### GitHub ArgoCD Example Application
+
+To install a demo application into your cluster enable the following flag.  With this flag enabled a demo application will be installed.
+
+- In your tfvars.json
+
+```json
+{
+  "create_github_demo_app": true
+}
+```
+
 ### Gitlab
 
 
@@ -147,6 +159,5 @@ global:
 
 
 ## Future
-1. Install a Demo GitOps Application via ArgoCD
 
 If you'd like to see you cloud/version control supported please create and issue in this repository.
