@@ -17,7 +17,9 @@ MacOS:
   - Sonoma 14.3
 
 Windows OS:
-- 
+- Windows 11 Enterprise
+  - Version: 23H2 
+    - OS Build 22631.3155
 
 ## Codefresh Configuration
 
