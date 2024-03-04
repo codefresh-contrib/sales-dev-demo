@@ -72,6 +72,12 @@ variable "cf_runtime_az" {
   description = "Codefresh Runtime installation namespace"
 }
 
+variable "cf_runtime_version" {
+  type = string
+  default = "6.3.14"
+  description = "Codefresh Runtime version"
+}
+
 variable "gitops_runtime_name" {
   type = string
   default = "gitops-runtime"
@@ -82,15 +88,30 @@ variable "gitops_runtime_namespace" {
   type = string
   default = "gitops-runtime"
   description = "GitOps Runtime installation namespace"
+
 }
 
-#### GitHub Configuration
+variable "gitops_runtime_version" {
+  type = string
+  default = "0.4.6"
+  description = "GitOps Runtime version"
+}
+
+#### ISC Configuration, requires GitHub or Gitlab
 
 variable "create_isc" {
   type    = string
   default = false
   description = "Creates Codefresh Internal Shared Configuration Repository"
 }
+
+variable "docker_host" {
+  type    = string
+  default = "unix:///var/run/docker.sock"
+  description = "Docker deamon host.  Default is for MacOS, for Windows use npipe:////.//pipe//docker_engine"
+}
+
+#### GitHub Configuration
 
 variable "github_isc" {
   type    = string
@@ -105,8 +126,35 @@ variable "github_api_token" {
   description = "GitHub API Token, if creating ISC"
 }
 
+variable "github_base_url" {
+  type    = string
+  default = "https://api.github.com/"
+  description = "This is the target GitHub base API endpoint, if creating ISC.  Requires a trailing slash."
+}
+
 variable "github_owner" {
   type    = string
   default = null
   description = "GitHub Owner (Personal Account or Organization), if creating ISC"
+}
+
+#### Gitlab Configuration
+
+variable "gitlab_isc" {
+  type    = string
+  default = false
+  description = "Selects Gitlab for ISC"
+}
+
+variable "gitlab_api_token" {
+  type    = string
+  sensitive = true
+  default = "glpat-"
+  description = "Gitlab API Token, if creating ISC"
+}
+
+variable "gitlab_base_url" {
+  type    = string
+  default = "https://gitlab.com/"
+  description = "This is the target GitLab base API endpoint, if creating ISC.  Requires a trailing slash."
 }

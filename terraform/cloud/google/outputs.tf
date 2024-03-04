@@ -14,4 +14,8 @@ output "google_artifact_registry" {
 
 output "isc_repository" {
   value = local.repo_clone_url
+
+  depends_on = [
+    docker_container.cf_configure_isc
+  ]
 }

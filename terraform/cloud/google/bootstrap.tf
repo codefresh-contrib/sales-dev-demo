@@ -66,7 +66,7 @@ resource "docker_container" "cf_create_context" {
   must_run = "false"
 }
 
-# Create Codefresh ISC Repository
+# Create Codefresh ISC Repository in GitHub
 
 resource "github_repository" "codefresh-demo-isc" {
   count = var.github_isc ? 1 : 0
@@ -79,12 +79,26 @@ resource "github_repository" "codefresh-demo-isc" {
   ]
 }
 
+# Create Codefresh ISC Repository in Gitlab
+
+resource "gitlab_project" "codefresh-demo-isc" {
+  count = var.gitlab_isc ? 1 : 0
+  name        = "${google_container_cluster.demo.name}-isc"
+  description = "Codefresh Shared Configuration Repository"
+
+  default_branch = "main"
+  initialize_with_readme = true
+  visibility_level = "private"
+  depends_on = [
+    docker_container.cf_create_context
+  ]
+}
 # Get Version Control Information
 
 locals {
-  count = var.github_isc ? 1 : 0
-  repo_clone_url = try(github_repository.codefresh-demo-isc[0].http_clone_url, null)
-  vcs_api_token = var.github_api_token
+  repo_clone_url = try(github_repository.codefresh-demo-isc[0].http_clone_url, gitlab_project.codefresh-demo-isc[0].http_url_to_repo, null)
+  vcs_api_token = try(var.github_api_token, var.gitlab_api_token)
+  provider = var.github_isc ? "github" : "gitlab"
 }
 
 # Add Codefresh ISC Repository
@@ -105,6 +119,8 @@ resource "docker_container" "cf_configure_isc" {
               "config",
               "update-gitops-settings",
               "--silent",
+              "--git-provider",
+              "${local.provider}",
               "--shared-config-repo",
               "${local.repo_clone_url}"
             ]
@@ -133,8 +149,9 @@ resource "helm_release" "nginx-ingress" {
 
 resource "helm_release" "gitops-runtime" {
   name       = "${var.gitops_runtime_name}"
-  repository = "https://chartmuseum.codefresh.io/gitops-runtime"
+  repository = "oci://quay.io/codefresh"
   chart      = "gitops-runtime"
+  version    = "${var.gitops_runtime_version}"
   namespace  = "${var.gitops_runtime_namespace}"
   create_namespace = "true"
 
@@ -166,8 +183,9 @@ resource "helm_release" "gitops-runtime" {
 
 resource "helm_release" "cf-runtime" {
   name       = "${var.cf_runtime_name}"
-  repository = "https://chartmuseum.codefresh.io/cf-runtime"
+  repository = "oci://quay.io/codefresh"
   chart      = "cf-runtime"
+  version    = "${var.cf_runtime_version}"
   namespace  = "${var.cf_runtime_namespace}"
   create_namespace = "true"
 

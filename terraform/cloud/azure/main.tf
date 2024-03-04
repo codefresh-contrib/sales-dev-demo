@@ -12,6 +12,10 @@ terraform {
       source  = "integrations/github"
       version = "~> 5.0"
     }
+    gitlab = {
+      source = "gitlabhq/gitlab"
+      version = "16.9.1"
+    }
     helm = {
       source = "hashicorp/helm"
       version = "2.12.1"
@@ -33,12 +37,19 @@ provider "azurerm" {
 }
 
 provider "docker" {
-  host = "unix:///var/run/docker.sock"
+  host = var.docker_host
 }
 
 provider "github" {
   token = var.github_api_token
+  base_url = var.github_base_url
   owner = var.github_owner
+}
+
+provider "gitlab" {
+  token = var.gitlab_api_token
+  base_url = var.gitlab_base_url
+  early_auth_check = false
 }
 
 provider "helm" {
