@@ -210,7 +210,7 @@ resource "terraform_data" "docker_registry" {
       --data '{
         "name": "${var.eks_cluster_name}",
         "provider": "ecr",
-        "region": "us-east-1",
+        "region": "${var.aws_region}",
         "behindFirewall": true,
         "primary": true,
         "default": true,
