@@ -157,6 +157,18 @@ global:
 
 ```
 
+#### Gitlab ArgoCD Example Application
+
+To install a demo application into your cluster enable the following flag.  With this flag enabled a demo application will be installed.
+
+- In your tfvars.json
+
+```json
+{
+  "create_gitlab_demo_app": true
+}
+```
+
 
 ## Future
 

@@ -32,10 +32,10 @@ output "isc_repository" {
   ]
 }
 
-output "demo_app_repository" {
-  value = module.create_demo_app[0].demo_app_repository
+output "github_demo_app_repository" {
+  value = var.create_github_demo_app ? module.create_github_demo_app[0].demo_app_repository : null
+}
 
-  depends_on = [
-    module.create_demo_app
-  ]
+output "gitlab_demo_app_repository" {
+  value = var.create_gitlab_demo_app ? module.create_gitlab_demo_app[0].demo_app_repository : null
 }
