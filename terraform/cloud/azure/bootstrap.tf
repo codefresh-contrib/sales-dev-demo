@@ -213,3 +213,48 @@ resource "helm_release" "cf-runtime" {
     azurerm_kubernetes_cluster.demo
   ]
 }
+
+# Create Demo App GitHub
+
+module "create_github_demo_app" {
+  count = var.create_github_demo_app ? 1 : 0
+
+  source = "../../helm/eva-demo-app/github"
+
+  providers = {
+    github = github
+    dataprocessor = dataprocessor
+  }
+
+  runtime_name = azurerm_kubernetes_cluster.demo.name
+  docker_host = var.docker_host
+  github_api_token = var.github_api_token 
+  github_base_url = var.github_base_url
+  github_owner = var.github_owner
+
+  depends_on = [
+    helm_release.gitops-runtime
+  ]
+}
+
+# Create Demo App Gitlab
+
+module "create_gitlab_demo_app" {
+  count = var.create_gitlab_demo_app ? 1 : 0
+
+  source = "../../helm/eva-demo-app/gitlab"
+
+  providers = {
+    gitlab = gitlab
+    dataprocessor = dataprocessor
+  }
+
+  runtime_name = azurerm_kubernetes_cluster.demo.name
+  docker_host = var.docker_host
+  gitlab_api_token = var.gitlab_api_token 
+  gitlab_base_url = var.gitlab_base_url
+
+  depends_on = [
+    helm_release.gitops-runtime
+  ]
+}
