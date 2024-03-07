@@ -280,7 +280,6 @@ resource "gitlab_project" "codefresh-demo-isc" {
 
 locals {
   repo_clone_url = try(github_repository.codefresh-demo-isc[0].http_clone_url, gitlab_project.codefresh-demo-isc[0].http_url_to_repo, null)
-  vcs_api_token = try(var.github_api_token, var.gitlab_api_token)
   provider = var.github_isc ? "github" : "gitlab"
 }
 
@@ -437,9 +436,9 @@ resource "helm_release" "cf-runtime" {
   ]
 }
 
-# Create Demo App
+# Create Demo App GitHub
 
-module "create_demo_app" {
+module "create_github_demo_app" {
   count = var.create_github_demo_app ? 1 : 0
 
   source = "../../helm/eva-demo-app/github"
@@ -454,6 +453,28 @@ module "create_demo_app" {
   github_api_token = var.github_api_token 
   github_base_url = var.github_base_url
   github_owner = var.github_owner
+
+  depends_on = [
+    helm_release.gitops-runtime
+  ]
+}
+
+# Create Demo App Gitlab
+
+module "create_gitlab_demo_app" {
+  count = var.create_gitlab_demo_app ? 1 : 0
+
+  source = "../../helm/eva-demo-app/gitlab"
+
+  providers = {
+    gitlab = gitlab
+    dataprocessor = dataprocessor
+  }
+
+  runtime_name = var.eks_cluster_name
+  docker_host = var.docker_host
+  gitlab_api_token = var.gitlab_api_token 
+  gitlab_base_url = var.gitlab_base_url
 
   depends_on = [
     helm_release.gitops-runtime

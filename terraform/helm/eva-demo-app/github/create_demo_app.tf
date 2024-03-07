@@ -172,7 +172,3 @@ resource "docker_container" "cf_create_git_source" {
     docker_container.cf_register_git_integration
   ]
 }
-
-#TODO Setup CI Pipelines for Build/Enrichment of Demo App
-
-#TODO Add Codefresh Environments for Demo App (feature currently beta)
