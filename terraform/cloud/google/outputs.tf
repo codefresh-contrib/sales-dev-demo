@@ -19,3 +19,11 @@ output "isc_repository" {
     docker_container.cf_configure_isc
   ]
 }
+
+output "github_demo_app_repository" {
+  value = var.create_github_demo_app ? module.create_github_demo_app[0].demo_app_repository : null
+}
+
+output "gitlab_demo_app_repository" {
+  value = var.create_gitlab_demo_app ? module.create_gitlab_demo_app[0].demo_app_repository : null
+}

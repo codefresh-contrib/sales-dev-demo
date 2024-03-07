@@ -128,6 +128,13 @@ variable "github_owner" {
   default = null
   description = "GitHub Owner (Personal Account or Organization), if creating ISC"
 }
+
+variable "create_github_demo_app" {
+  type    = string
+  default = false
+  description = "Creates demo app in GitHub"
+}
+
 #### Gitlab Configuration
 
 variable "gitlab_isc" {
@@ -148,3 +155,10 @@ variable "gitlab_base_url" {
   default = "https://gitlab.com/"
   description = "This is the target GitLab base API endpoint, if creating ISC.  Requires a trailing slash."
 }
+
+variable "create_gitlab_demo_app" {
+  type    = string
+  default = false
+  description = "Creates demo app in Gitlab"
+}
+
