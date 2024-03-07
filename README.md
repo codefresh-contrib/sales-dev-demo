@@ -84,6 +84,9 @@ Required Google Configuration `tfvars.json`
 
 This requires Docker on your machine.
 
+This also cannot be done later do to order of operations.  You must add this during the initial apply.  
+The demo app creation can be done later.
+
 If you're using Windows OS please add the following to your `tfvars.json`
 
 ```json
