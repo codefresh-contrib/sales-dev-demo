@@ -3,6 +3,10 @@ terraform {
     dataprocessor = {
       source = "slok/dataprocessor"
     }
+    codefresh = {
+      source = "codefresh-io/codefresh"
+      version = "0.8.0"
+    }
     docker = {
       source = "kreuzwerker/docker"
       version = "3.0.2"

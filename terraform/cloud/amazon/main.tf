@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    codefresh = {
+      source = "codefresh-io/codefresh"
+      version = "0.8.0"
+    }
     dataprocessor = {
       source = "slok/dataprocessor"
       version = "0.4.0"
@@ -29,6 +33,10 @@ terraform {
 
 provider "aws" {
   region     = var.aws_region
+}
+
+provider "codefresh" {
+  token = var.cf_api_token
 }
 
 provider "docker" {

@@ -13,7 +13,7 @@ output "ecr_registry_result" {
 }
 
 output "ecr_registry_tests" {
-  value = aws_ecr_repository.test.name
+  value = aws_ecr_repository.tests.name
 }
 
 output "ecr_registry_vote" {

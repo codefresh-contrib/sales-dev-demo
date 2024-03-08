@@ -177,8 +177,8 @@ resource "aws_ecr_repository" "result" {
   image_tag_mutability = "MUTABLE"
 }
 
-resource "aws_ecr_repository" "test" {
-  name                 = "example-voting-app/test"
+resource "aws_ecr_repository" "tests" {
+  name                 = "example-voting-app/tests"
   image_tag_mutability = "MUTABLE"
 }
 
@@ -436,6 +436,32 @@ resource "helm_release" "cf-runtime" {
   ]
 }
 
+# Create ECR Docker Registry Integration
+## TODO: Submit Request to support in Codefresh Provider
+
+resource "terraform_data" "codefresh_create_docker_registry_integration" {
+  provisioner "local-exec" {
+    command = <<EOT
+      curl --location 'https://g.codefresh.io/api/registries' \
+      --header 'Content-Type: application/json' \
+      --header 'Accept: application/json' \
+      --header 'Authorization: Bearer ${var.cf_api_token}' \
+      --data '{
+        "name": "${module.eks.cluster_name}",
+        "provider": "ecr",
+        "region": "us-east-1",
+        "behindFirewall": true,
+        "primary": true,
+        "default": true,
+        "internal": true,
+        "denyCompositeDomain": true,
+        "domain": "from.service-account",
+        "getCredsFromServiceAccount": true
+      }'
+    EOT
+  }
+}
+
 # Create Demo App GitHub
 
 module "create_github_demo_app" {
@@ -448,11 +474,16 @@ module "create_github_demo_app" {
     dataprocessor = dataprocessor
   }
 
-  runtime_name = var.eks_cluster_name
+  cf_api_token = var.cf_api_token
   docker_host = var.docker_host
   github_api_token = var.github_api_token 
   github_base_url = var.github_base_url
   github_owner = var.github_owner
+  registry_result = aws_ecr_repository.result.repository_url
+  registry_tests = aws_ecr_repository.tests.repository_url
+  registry_vote = aws_ecr_repository.vote.repository_url
+  registry_worker = aws_ecr_repository.worker.repository_url
+  runtime_name = var.eks_cluster_name
 
   depends_on = [
     helm_release.gitops-runtime
